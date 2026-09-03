@@ -6,10 +6,11 @@ pipeline{
          
         ECR_REPO_NAME='flask-app-demo/first'
         //
-        BUILD_IMAGE="${ECR_REPO_NAME}:V${IMAGE_TAG}"
-
+        
         ECR_REGISTRY="514080426196.dkr.ecr.us-east-2.amazonaws.com"
-    }
+        BUILD_IMAGE="${ECR_REGISTRY}/${ECR_REPO_NAME}:V${IMAGE_TAG}"
+        
+        }
     stages{
         stage("build"){
             steps{
