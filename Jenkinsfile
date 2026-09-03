@@ -20,7 +20,7 @@ pipeline{
     }
     post{
         always{
-            cleanWS()
+            cleanWs()
         }
         success{
             echo "========pipeline executed successfully ========"
