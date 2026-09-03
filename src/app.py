@@ -10,7 +10,7 @@ def hello_world():
   return {"message": "Hello, World!"}  # Returning JSON is common for CORS APIs
 
 @app.get("/hello")
-def hello_world():
+def hello_wwworld():
   return {"message": "Helldasdsadsao, World!"}  # Returning JSON is common for CORS APIs
 
 
