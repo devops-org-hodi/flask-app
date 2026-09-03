@@ -9,7 +9,7 @@ CORS(app)  # This enables CORS for all routes and origins
 def hello_world():
   return {"message": "Hello, World!"}  # Returning JSON is common for CORS APIs
 
-@app.get("/hello")
+@app.get("/hellsso")
 def hello_wwworld():
   return {"message": "Helldasdsadsao, World!"}  # Returning JSON is common for CORS APIs
 
