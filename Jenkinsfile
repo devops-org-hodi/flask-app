@@ -3,10 +3,7 @@ pipeline{
     environment {
         IMAGE="pizza-box"
         IMAGE_TAG="${BUILD_NUMBER}"
-         
         ECR_REPO_NAME='flask-app-demo/first'
-        //
-        
         ECR_REGISTRY="514080426196.dkr.ecr.us-east-2.amazonaws.com"
         BUILD_IMAGE="${ECR_REGISTRY}/${ECR_REPO_NAME}:V${IMAGE_TAG}"
         
