@@ -9,6 +9,10 @@ CORS(app)  # This enables CORS for all routes and origins
 def hello_world():
   return {"message": "Hello, World!"}  # Returning JSON is common for CORS APIs
 
+@app.get("/hello")
+def hello_world():
+  return {"message": "Helldasdsadsao, World!"}  # Returning JSON is common for CORS APIs
+
 
 if __name__ == "__main__":
   # host="0.0.0.0" makes the server accessible from other devices on your network
