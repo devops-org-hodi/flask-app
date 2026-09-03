@@ -38,7 +38,7 @@ pipeline{
                         aws ecr get-login-password --region us-east-2  | \
                         docker login \
                         --username AWS \
-                        --password-stdin $"{ECR_REGISTRY}"
+                        --password-stdin "${ECR_REGISTRY}"
                         
                         docker push "${BUILD_IMAGE}"
                         '''
