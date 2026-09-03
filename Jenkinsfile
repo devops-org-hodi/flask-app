@@ -44,6 +44,32 @@ pipeline{
                 }
             }
         }
+        stage("update gitops repo"){
+            
+            steps{
+                    withCredentials([
+                        usernamePassword(credentialsId: 'gitops-cred',
+                         usernameVariable: 'USER',
+                        passwordVariable: 'PASS')]){
+
+
+            
+            sh '''
+                git clone "https://${USER}:${PASS}@github.com/devops-org-hodi/flask-app-deployment"
+                cd flask-app-deployment/k8s
+                sed -i "s#image:.*#image: ${BUILD_IMAGE}#g" manifest.yaml
+
+                git config user.name "jenkins"
+                git config user.email "jenkins@jenkinskenkins.com"
+
+
+                git add manifest.yaml
+                git commit -m "#${BUILD_NUMBER} : new build pushed "
+                git push origin main
+            '''
+                        }
+            }
+        }
     }
     post{
         always{
