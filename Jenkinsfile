@@ -4,15 +4,18 @@ pipeline{
         IMAGE="pizza-box"
         IMAGE_TAG="${BUILD_NUMBER}"
          
+        ECR_REPO_NAME='flask-app-demo/first'
         //
-        BUILD_IMAGE="${IMAGE}:V${IMAGE_TAG}"
+        BUILD_IMAGE="${ECR_REPO_NAME}:V${IMAGE_TAG}"
+
+        ECR_REGISTRY="514080426196.dkr.ecr.us-east-2.amazonaws.com"
     }
     stages{
         stage("build"){
             steps{
                 echo "+++ build docker image +++"
                 sh "docker build -t ${BUILD_IMAGE} src/"
-                sh "docker images | grep ${IMAGE} " 
+                sh "docker images | grep ${ECR_REPO_NAME} " 
             }
            
         }
@@ -22,7 +25,7 @@ pipeline{
             }
            
         }
-        stage("login to AWS"){
+        stage("login to AWS adn push to ecr"){
             steps{
                  withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
                                   credentialsId: 'prd-aws-cred', 
@@ -30,6 +33,16 @@ pipeline{
                                   secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                     
                     sh 'aws sts get-caller-identity'
+
+                    sh '''
+                        aws ecr get-login-password --region us-east-2  | \
+                        docker login \
+                        --username AWS \
+                        --password-stdin $"{ECR_REGISTRY}"
+                        
+                        docker push "${BUILD_IMAGE}"
+                        '''
+                    
                 }
             }
         }
@@ -38,7 +51,6 @@ pipeline{
         always{
             cleanWs()
             sh "docker rmi -f  ${BUILD_IMAGE}"
-            sh 'aws sts get-caller-identity'
         }
         success{
             echo "========pipeline executed successfully ========"
